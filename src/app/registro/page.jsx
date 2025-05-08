@@ -1,6 +1,8 @@
+import Link from 'next/link';
+
 function Registro() {
 	return (
-		<div>
+		<div className='flex flex-col items-center justify-center h-screen'>
 			<h1>Eres...</h1>
 			<div>
 				<Link href="/registro/estudiante">Estudiante</Link>

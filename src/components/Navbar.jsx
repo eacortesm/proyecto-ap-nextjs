@@ -1,6 +1,16 @@
+'use client';
+
 import Link from "next/link";
+import { usePathname } from 'next/navigation';
 
 function Navbar() {
+  const pathname = usePathname();
+  const hideNavbarPaths = ['/login', '/registro'];
+
+  if (hideNavbarPaths.includes(pathname)) {
+    return null;
+  }
+
   return (
     <nav className="flex flex-col">
       <div className="flex justify-between p-5 bg-cyan-900">
@@ -18,8 +28,8 @@ function Navbar() {
           </li>
         </ul>
       </div>
-      <div className="flex flex-row justify-center bg-cyan-800 p-1">
-        <ul className="flex justify-between p-2 text-white font-bold text-lg">
+      <div className="flex justify-center bg-cyan-800 p-1">
+        <ul className="flex justify-evenly p-2 text-white font-bold text-lg w-full max-w-screen-md">
           <li>
             <Link className="text-xl" href="/">Inicio</Link>
           </li>
