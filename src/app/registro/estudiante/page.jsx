@@ -1,7 +1,66 @@
+import Link from "next/link";
+
 function RegistroEstudiante() {
 	return (
-		<div>
-			
+		<div className="flex flex-col items-center justify-center min-h-screen">
+			<h1 className='text-3xl font-bold'>Estudiante</h1>
+				<form className="flex flex-col gap-4 mt-4 border p-4 rounded-lg shadow-lg bg-gray-300 pt-8 max-h-[80vh] overflow-y-auto w-full max-w-80 min-w-40">
+					<div className="flex flex-col">
+						<input type="email" id="email" placeholder="Correo ITCR" className="border rounded-2xl border-none p-2 bg-white text-center text-black" />
+					</div>
+					<div className="flex flex-col">
+						<select
+							id="rol"
+							name="rol"
+							className=""
+							defaultValue=""
+						>
+							<option value="" disabled>Elige una opción</option>
+							<option value="TI">Administración de Tecnología de Información</option>
+							<option value="AU">Arquitectura</option>
+							<option value="AE">Bachillerato en Administración de Empresas</option>
+							<option value="TR">Bachillerato en Gestión del Turismo Sostenible</option>
+							<option value="ID">Bachillerato en Ingeniería en Diseño Industrial</option>
+							<option value="PI">Bachillerato en Producción Industrial, Limón</option>
+							<option value="EM">Enseñanza de la Matemática con Entornos Tecnológicos</option>
+							<option value="TS">Gestión del Turismo Sostenible</option>
+							<option value="TR">Gestión en Sostenibilidad Turística</option>
+							<option value="IA">Ingeniería Agrícola</option>
+							<option value="AI">Ingeniería Ambiental</option>
+							<option value="EL">Ingeniería Electrónica</option>
+							<option value="AN">Ingeniería en Agronegocios</option>
+							<option value="IB">Ingeniería en Biotecnología</option>
+							<option value="IC">Ingeniería en Computación</option>
+							<option value="CE">Ingeniería en Computadores</option>
+							<option value="ID">Ingeniería en Diseño Industrial</option>
+							<option value="CM">Ingeniería en Materiales</option>
+							<option value="PI">Ingeniería en Producción Industrial</option>
+							<option value="SO">Ingeniería en Seguridad Laboral e Higiene Ambiental</option>
+							<option value="IF">Ingeniería Física</option>
+							<option value="FO">Ingeniería Forestal</option>
+							<option value="LA">Licenciatura en Administración de Empresas</option>
+							<option value="LE">Licenciatura en Educación Técnica</option>
+							<option value="AG">Licenciatura en Ingeniería en Agronomía</option>
+							<option value="BL">Licenciatura en Ingeniería en Biotecnología</option>
+							<option value="CO">Licenciatura en Ingeniería en Construcción</option>
+							<option value="MT">Licenciatura en Ingeniería Mecatrónica</option>
+							<option value="MI">Licenciatura en Mantenimiento Industrial</option>
+							<option value="EM">Licenciatura Enseñanza de la Matemática con Entornos Tecnológicos</option>
+						</select>
+					</div>
+					<div className="flex flex-col">
+						<input type="password" id="password" placeholder="Contraseña" className="border rounded-2xl border-none p-2 bg-white text-center text-black" />
+					</div>
+					<div className="flex flex-col">
+						<input type="password" id="repeat-password" placeholder="Repetir Contraseña" className="border rounded-2xl border-none p-2 bg-white text-center text-black" />
+					</div>
+					<div className="flex flex-col">
+						<button type="submit" className="bg-blue-400 hover:bg-blue-500 px-4 py-2 rounded-xl w-fit mx-auto">Registrarse</button>
+					</div>
+					<div className="flex flex-col">
+						<Link href="/login" className="w-fit mx-auto text-gray-700">¿Ya tiene cuenta? Inicie sesión</Link>
+					</div>
+				</form>
 		</div>
 	)
 }
