@@ -5,7 +5,14 @@ import { usePathname } from 'next/navigation';
 
 function Navbar() {
   const pathname = usePathname();
-  const hideNavbarPaths = ['/login', '/registro'];
+  const hideNavbarPaths = [
+    '/login', 
+    '/registro',
+    '/registro/estudiante',
+    '/registro/profesor',
+    '/registro/escuela',
+    '/registro/administrador',
+  ];
 
   if (hideNavbarPaths.includes(pathname)) {
     return null;

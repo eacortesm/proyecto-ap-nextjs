@@ -6,4 +6,9 @@ function RegistroLayout({ children }) {
   )
 }
 
+export const metadata = {
+  title: 'Registro',
+  desctription: 'Registro de un usuario',
+};
+
 export default RegistroLayout;
