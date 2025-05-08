@@ -9,13 +9,16 @@ function RegistroEstudiante() {
 						<input type="email" id="email" placeholder="Correo ITCR" className="border rounded-2xl border-none p-2 bg-white text-center text-black" />
 					</div>
 					<div className="flex flex-col">
+						<input type="text" id="name" placeholder="Nombre" className="border rounded-2xl border-none p-2 bg-white text-center text-black" />
+					</div>
+					<div className="flex flex-col">
 						<select
 							id="rol"
 							name="rol"
-							className=""
+							className="text-center border border-none rounded-2xl bg-white p-3 text-gray-500"
 							defaultValue=""
 						>
-							<option value="" disabled>Elige una opción</option>
+							<option value="" disabled>Elige una carrera</option>
 							<option value="TI">Administración de Tecnología de Información</option>
 							<option value="AU">Arquitectura</option>
 							<option value="AE">Bachillerato en Administración de Empresas</option>
@@ -47,6 +50,25 @@ function RegistroEstudiante() {
 							<option value="MI">Licenciatura en Mantenimiento Industrial</option>
 							<option value="EM">Licenciatura Enseñanza de la Matemática con Entornos Tecnológicos</option>
 						</select>
+					</div>
+					<div className="flex flex-col">
+						<select
+							id="rol"
+							name="rol"
+							className="text-center text-gray-500 border border-none rounded-2xl bg-white p-3"
+							defaultValue=""
+						>
+							<option value="">Elige un nivel academico</option>
+							<option value="grado-tecnico" disabled>Grado Técnico</option>
+							<option value="postgrado">Postgrado</option>
+						</select>
+					</div>
+					<div className="flex flex-col">
+						<input type="tel" id="contact" placeholder="Contacto" className="border rounded-2xl border-none p-2 bg-white text-center text-black" />
+					</div>
+					<div className="flex flex-col">
+						<label htmlFor="file" className="text-gray-600">Certificado o Referencia (Opcional)</label>
+						<input type="file" id="file" placeholder="Certificado o Referencia" className="border rounded-2xl border-none p-2 bg-white text-center text-gray-500" />
 					</div>
 					<div className="flex flex-col">
 						<input type="password" id="password" placeholder="Contraseña" className="border rounded-2xl border-none p-2 bg-white text-center text-black" />
