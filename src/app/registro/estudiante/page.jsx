@@ -1,4 +1,5 @@
 import Link from "next/link";
+import FileSelector from "@/components/FileSelector";
 
 function RegistroEstudiante() {
 	return (
@@ -58,18 +59,15 @@ function RegistroEstudiante() {
 							className="text-center text-gray-500 border border-none rounded-2xl bg-white p-3"
 							defaultValue=""
 						>
-							<option value="">Elige un nivel academico</option>
-							<option value="grado-tecnico" disabled>Grado Técnico</option>
-							<option value="postgrado">Postgrado</option>
+							<option value="" disabled>Elige un nivel academico</option>
+							<option value="GT">Grado Técnico</option>
+							<option value="PG">Postgrado</option>
 						</select>
 					</div>
 					<div className="flex flex-col">
 						<input type="tel" id="contact" placeholder="Contacto" className="border rounded-2xl border-none p-2 bg-white text-center text-black" />
 					</div>
-					<div className="flex flex-col">
-						<label htmlFor="file" className="text-gray-600">Certificado o Referencia (Opcional)</label>
-						<input type="file" id="file" placeholder="Certificado o Referencia" className="border rounded-2xl border-none p-2 bg-white text-center text-gray-500" />
-					</div>
+					<FileSelector />
 					<div className="flex flex-col">
 						<input type="password" id="password" placeholder="Contraseña" className="border rounded-2xl border-none p-2 bg-white text-center text-black" />
 					</div>
