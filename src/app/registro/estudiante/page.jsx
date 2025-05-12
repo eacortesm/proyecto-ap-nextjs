@@ -1,31 +1,78 @@
+'use client'
+
 import Link from "next/link";
 import FileSelector from "@/components/FileSelector";
 
 function RegistroEstudiante() {
+
+	const onSubmit = async (e) => {
+		e.preventDefault();
+
+		if (
+			!e.target.correo.value ||
+			!e.target.nombre.value ||
+			!e.target.apellidos.value ||
+			!e.target.carnet.value ||
+			!e.target.carrera.value ||
+			!e.target.nivel.value ||
+			!e.target.contacto.value ||
+			!e.target.contrasena.value
+		) {
+			alert("Por favor, complete todos los campos.");
+			return;
+		}
+
+		if (!e.target.correo.value.endsWith("@estudiantec.cr")) {
+			alert("El correo debe ser del dominio @estudiantec.cr");
+			return;
+		}
+
+		const email = e.target.correo.value;
+		const name = e.target.nombre.value;
+		const apellidos = e.target.apellidos.value;
+		const password = e.target.contrasena.value;
+		const carnet = e.target.carnet.value;
+		const carrera = e.target.carrera.value;
+		const nivelAcademico = e.target.nivel.value;
+		const contacto = e.target.contacto.value;
+
+		const res = await fetch(`/api/signIn`, {
+			method: 'POST',
+			body: JSON.stringify({email, name, apellidos, password, carnet, carrera, nivelAcademico, contacto}),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+	}
+
 	return (
 		<div className="flex flex-col items-center justify-center min-h-screen">
 			<h1 className='text-3xl font-bold'>Estudiante</h1>
-				<form className="flex flex-col gap-4 mt-4 border p-4 rounded-lg shadow-lg bg-gray-300 pt-8 max-h-[80vh] overflow-y-auto w-full max-w-80 min-w-40">
+				<form onSubmit={onSubmit} className="flex flex-col gap-4 mt-4 border p-4 rounded-lg shadow-lg bg-gray-300 pt-8 max-h-[80vh] overflow-y-auto w-full max-w-80 min-w-40">
 					<div className="flex flex-col">
-						<input type="email" id="email" placeholder="Correo ITCR" className="border rounded-2xl border-none p-2 bg-white text-center text-black" />
+						<input type="email" id="correo" placeholder="Correo ITCR" className="border rounded-2xl border-none p-2 bg-white text-center text-black" required />
 					</div>
 					<div className="flex flex-col">
-						<input type="text" id="name" placeholder="Nombre" className="border rounded-2xl border-none p-2 bg-white text-center text-black" />
+						<input type="text" id="nombre" placeholder="Nombre" className="border rounded-2xl border-none p-2 bg-white text-center text-black" required />
+					</div>
+					<div className="flex flex-col">
+						<input type="text" id="apellidos" placeholder="Apellidos" className="border rounded-2xl border-none p-2 bg-white text-center text-black" required />
+					</div>
+					<div className="flex flex-col">
+						<input type="number" id="carnet" placeholder="Carnet" className="border rounded-2xl border-none p-2 bg-white text-center text-black" required />
 					</div>
 					<div className="flex flex-col">
 						<select
-							id="rol"
-							name="rol"
+							id="carrera"
+							name="carrera"
 							className="text-center border border-none rounded-2xl bg-white p-3 text-gray-500"
 							defaultValue=""
+							required
 						>
 							<option value="" disabled>Elige una carrera</option>
 							<option value="TI">Administración de Tecnología de Información</option>
 							<option value="AU">Arquitectura</option>
 							<option value="AE">Bachillerato en Administración de Empresas</option>
-							<option value="TR">Bachillerato en Gestión del Turismo Sostenible</option>
-							<option value="ID">Bachillerato en Ingeniería en Diseño Industrial</option>
-							<option value="PI">Bachillerato en Producción Industrial, Limón</option>
 							<option value="EM">Enseñanza de la Matemática con Entornos Tecnológicos</option>
 							<option value="TS">Gestión del Turismo Sostenible</option>
 							<option value="TR">Gestión en Sostenibilidad Turística</option>
@@ -49,15 +96,15 @@ function RegistroEstudiante() {
 							<option value="CO">Licenciatura en Ingeniería en Construcción</option>
 							<option value="MT">Licenciatura en Ingeniería Mecatrónica</option>
 							<option value="MI">Licenciatura en Mantenimiento Industrial</option>
-							<option value="EM">Licenciatura Enseñanza de la Matemática con Entornos Tecnológicos</option>
 						</select>
 					</div>
 					<div className="flex flex-col">
 						<select
-							id="rol"
-							name="rol"
+							id="nivel"
+							name="nivel"
 							className="text-center text-gray-500 border border-none rounded-2xl bg-white p-3"
 							defaultValue=""
+							required
 						>
 							<option value="" disabled>Elige un nivel academico</option>
 							<option value="GT">Grado Técnico</option>
@@ -65,14 +112,11 @@ function RegistroEstudiante() {
 						</select>
 					</div>
 					<div className="flex flex-col">
-						<input type="tel" id="contact" placeholder="Contacto" className="border rounded-2xl border-none p-2 bg-white text-center text-black" />
+						<input type="tel" id="contacto" placeholder="Contacto" className="border rounded-2xl border-none p-2 bg-white text-center text-black" required />
 					</div>
 					<FileSelector />
 					<div className="flex flex-col">
-						<input type="password" id="password" placeholder="Contraseña" className="border rounded-2xl border-none p-2 bg-white text-center text-black" />
-					</div>
-					<div className="flex flex-col">
-						<input type="password" id="repeat-password" placeholder="Repetir Contraseña" className="border rounded-2xl border-none p-2 bg-white text-center text-black" />
+						<input type="password" id="contrasena" placeholder="Contraseña" className="border rounded-2xl border-none p-2 bg-white text-center text-black" required />
 					</div>
 					<div className="flex flex-col">
 						<button type="submit" className="bg-blue-400 hover:bg-blue-500 px-4 py-2 rounded-xl w-fit mx-auto">Registrarse</button>
