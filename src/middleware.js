@@ -11,10 +11,22 @@ export function middleware(request) {
   if (!token) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
+  
+  const response = NextResponse.next();
+  response.cookies.set('token', token.value, {
+    httpOnly: true,
+    path: '/',
+    maxAge: 60 * 20, // 20 minutes
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+  });
 
-  return NextResponse.next();
+  return response;
 }
 
 export const config = {
-  matcher: ['/'],
+  matcher: [
+    '/', 
+    '/((?!_next|favicon.ico).*)'
+  ],
 }
