@@ -13,8 +13,8 @@ export async function POST(request) {
   })
   const data = await res.json();
 
-  if (data.success && data.token) {
-    const response = NextResponse.json({ success: true });
+  if (data.success && data.token && data.usuario) {
+    const response = NextResponse.json({ success: true, usuario: data.usuario });
 
     response.cookies.set('token', data.token, {
       httpOnly: true,

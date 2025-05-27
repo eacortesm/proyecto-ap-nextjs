@@ -1,11 +1,12 @@
 'use client';
 
 import { useRouter } from "next/navigation";
-
+import { useUsuario } from "../context/UsuarioContext";
 import Link from "next/link";
 
 export default function Page() {
 	const router = useRouter();
+	const { setUsuario } = useUsuario();
 
 	const onSubmit = async (e) => {
   e.preventDefault();
@@ -23,7 +24,10 @@ export default function Page() {
 		console.log(data);
 
     if (data.success === true) {
-      router.push('/');
+			setUsuario(data.usuario);
+			setTimeout(() => {
+				router.push('/');
+			}, 0)
     } else {
       console.error(data.message || 'Credenciales inválidas');
     }
@@ -34,7 +38,7 @@ export default function Page() {
 
 
 	return (
-		<div className="flex flex-col items-center justify-center h-screen">
+		<div className="flex flex-col items-center justify-center h-screen bg-gray-800 text-white">
 			<h1 className="text-4xl font-bold">Iniciar Sesion</h1>
 			<form className="flex flex-col gap-4 mt-4 border p-4 rounded-lg shadow-lg bg-gray-300 pt-8 max-h-[80vh] overflow-y-auto w-full max-w-min" onSubmit={onSubmit}>
 				<div className="flex flex-col">

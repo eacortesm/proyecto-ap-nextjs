@@ -1,6 +1,7 @@
 import { inter } from '@/app/ui/fonts'
 import Navbar from '@/components/Navbar';
-import './globals.css'
+import './globals.css';
+import { UsuarioProvider } from './context/UsuarioContext';
 
 export const metadata = {
   title: 'Asistencias y Tutorías',
@@ -14,8 +15,9 @@ function RootLayout({ children }) {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=logout" />
       </head>
       <body className={`${inter.className}`}>
-        <Navbar />
-        {children}
+        <UsuarioProvider>
+          {children}
+        </UsuarioProvider>
       </body>
     </html>
   );
