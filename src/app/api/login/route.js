@@ -12,5 +12,19 @@ export async function POST(request) {
     body: JSON.stringify(body)
   })
   const data = await res.json();
-  return NextResponse.json(data);
+
+  if (data.success && data.token) {
+    const response = NextResponse.json({ success: true });
+
+    response.cookies.set('token', data.token, {
+      httpOnly: true,
+      path: '/',
+      maxAge: 60 * 20, // 20 minutes
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+    });
+
+    return response;
+  }
+  return NextResponse.json({ success: false, message: data.message || 'Credenciales invalidas' }, { status: 401 });
 }
