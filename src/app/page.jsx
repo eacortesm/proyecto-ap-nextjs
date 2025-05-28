@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import { useUsuario } from "./context/UsuarioContext";
+import Offer from "@/components/Offer";
 
 function Page() {
   const { usuario } = useUsuario();
@@ -31,17 +32,16 @@ function Page() {
     <div>
       <Navbar />
       {usuario ? (
-        <>
-          <h2 className="text-2xl mb-4">¡Bienvenido {usuario.name}!</h2>
+        <main>
+          <h2 className="text-2xl mb-4 text-center">¡Bienvenido {usuario.name}!</h2>
           {loading && <p>Cargando ofertas...</p>}
           {error && <p className="text-red-500">Error: {error}</p>}
           {!loading && !error && (
-            <ul>
+            <ul className="w-full max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {ofertas.length > 0 ? (
                 ofertas.map((oferta) => (
                   <li key={oferta._id || oferta.id} className="mb-2">
-                    <h3 className="font-bold">{oferta.titulo}</h3>
-                    <p>{oferta.descripcion}</p>
+                    <Offer offer={oferta} />
                   </li>
                 ))
               ) : (
@@ -49,7 +49,7 @@ function Page() {
               )}
             </ul>
           )}
-        </>
+        </main>
       ) : (
         <h2>No has iniciado sesión.</h2>
       )}
