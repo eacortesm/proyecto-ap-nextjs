@@ -4,9 +4,8 @@ import { createContext, useContext, useState } from 'react';
 
 const UsuarioContext = createContext();
 
-export function UsuarioProvider({ children }) {
-  const [usuario, setUsuario] = useState(null);
-
+export function UsuarioProvider({ children, initialUsuario }) {
+  const [usuario, setUsuario] = useState(initialUsuario);
   return (
     <UsuarioContext.Provider value={{ usuario, setUsuario }}>
       {children}
