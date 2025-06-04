@@ -22,7 +22,7 @@ function RegistroProfesor() {
 							defaultValue=""
 							required
 						>
-							<option value="" disabled>Elige un nivel academico</option>
+							<option value="" disabled>Elige un departamento</option>
 							<option value="DAM">Departamento de Administración de Mantenimiento</option>
 							<option value="DATIC">Departamento de Administración de Tecnologías de Información y Comunicaciones</option>
 							<option value="DAR">Departamento de Administración y Registro</option>

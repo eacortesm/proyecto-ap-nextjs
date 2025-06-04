@@ -8,3 +8,21 @@ export async function GET() {
 
   return NextResponse.json(data);
 }
+
+export async function POST(request) {
+  const body = await request.json();
+
+  const res = await fetch(`${API_URL}/oferta`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+
+  const data = await res.json();
+  if (!res.ok) {
+    return NextResponse.json({ error: data.message }, { status: res.status });
+  }
+  return NextResponse.json(data, { status: 201 });
+}
