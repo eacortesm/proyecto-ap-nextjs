@@ -30,7 +30,7 @@ function Page() {
 
   return (
     <div>
-      <Navbar />
+      <Navbar tipoUsuario={usuario.tipoUsuario} />
       {usuario ? (
         <main>
           <h2 className="text-2xl mb-4 text-center">¡Bienvenido {usuario.name}!</h2>

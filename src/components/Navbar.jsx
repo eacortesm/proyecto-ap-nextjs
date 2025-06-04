@@ -1,10 +1,13 @@
 'use client';
 
-import Link from "next/link";
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-function Navbar() {
+function Navbar({ tipoUsuario }) {
   const pathname = usePathname();
+  const router = useRouter();
+
   const hideNavbarPaths = [
     '/login', 
     '/registro',
@@ -18,6 +21,20 @@ function Navbar() {
     return null;
   }
 
+  const handleLogout = async () => {
+    try {
+      const res = await fetch('/api/logout', { method: 'POST' });
+      if (res.ok) {
+        // Aquí opcionalmente limpiar estado de usuario si tienes contexto
+        router.push('/login');
+      } else {
+        console.error('Error al cerrar sesión');
+      }
+    } catch (error) {
+      console.error('Error en logout:', error);
+    }
+  };
+
   return (
     <nav className="flex flex-col border-b border-gray-300 bg-gray-400 shadow-sm">
       <div className="flex justify-between items-center px-6 py-4">
@@ -29,13 +46,14 @@ function Navbar() {
         </Link>
         <ul className="flex gap-6">
           <li>
-            <Link 
-              href="/login" 
+            <button
+              onClick={handleLogout}
               className="flex items-center gap-2 text-gray-700 hover:text-gray-900 transition-colors font-medium"
+              type="button"
             >
               <span className="material-symbols-outlined text-xl select-none">logout</span>
               <span className="hidden sm:inline">Salir</span>
-            </Link>
+            </button>
           </li>
         </ul>
       </div>
@@ -56,21 +74,34 @@ function Navbar() {
           </li>
           <li>
             <Link 
-              href="/asistencias" 
+              href="/oferta/buscar" 
               className={`material-symbols-outlined cursor-pointer transition-colors ${
-                pathname === '/asistencias' ? 'text-gray-900' : 'hover:text-gray-900'
+                pathname === '/oferta/buscar' ? 'text-gray-900' : 'hover:text-gray-900'
               }`}
-              aria-label="Buscar Asistencias"
-              title="Buscar Asistencias"
+              aria-label="Buscar Oferta"
+              title="Buscar Oferta"
             >
               search
             </Link>
           </li>
+          { (tipoUsuario === 'PROFESOR' || tipoUsuario == 'ESCUELA' || tipoUsuario == 'ADMINISTRADOR') && (
+            <li>
+              <Link
+                href="/oferta/crear"
+                className={`material-symbols-outlined cursor-pointer transition-colors ${
+                  pathname === '/oferta/crear' ? 'text-gray-900' : 'hover:text-gray-900'
+                }`}
+                aria-label="Crear Oferta"
+                title="Crear Oferta"
+              >
+                add_circle
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </nav>
   );
 }
-
 
 export default Navbar;
