@@ -11,6 +11,25 @@ function Page() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const handleDelete = async (titulo) => {
+    try {
+      const res = await fetch('/api/oferta', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ titulo }),
+      });
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || 'Error al eliminar la oferta');
+      }
+      setOfertas(ofertas.filter(oferta => oferta.titulo !== titulo));
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
   useEffect(() => {
     async function fetchOfertas() {
       try {
@@ -41,7 +60,7 @@ function Page() {
               {ofertas.length > 0 ? (
                 ofertas.map((oferta) => (
                   <li key={oferta._id || oferta.id} className="mb-2">
-                    <Offer offer={oferta} />
+                    <Offer offer={oferta} tipoUsuario={usuario.tipoUsuario} handleDelete={() => handleDelete(oferta.titulo)} />
                   </li>
                 ))
               ) : (

@@ -31,11 +31,34 @@ export default function CrearOfertaPage() {
     e.preventDefault();
     try {
       const titulo = e.target.titulo.value;
+      const tipoTrabajo = e.target.tipoTrabajo.value;
+      const departamento = e.target.departamento.value;
       const descripcion = e.target.descripcion.value;
+      const profesor = usuario?.tipoUsuario === 'PROFESOR' ? usuario.email : e.target.profesor.value;
+      const fechaInicio = e.target.fechaInicio.value;
+      const fechaFin = e.target.fechaFin.value;
+      const objetivos = e.target.objetivos.value;
+      const cantidadVacantes = e.target.cantidadVacantes.value;
+      const duracion = e.target.duracion.value;
+      const requisitos = e.target.requisitos.value;
+      const estadoOferta = e.target.estadoOferta.value;
 
       const res = await fetch('/api/oferta', {
         'method': 'POST',
-        'body': JSON.stringify({ titulo, descripcion }),
+        'body': JSON.stringify({ 
+          titulo, 
+          tipoTrabajo,
+          departamento,
+          descripcion,
+          profesor,
+          fechaInicio,
+          fechaFin,
+          objetivos,
+          cantidadVacantes,
+          duracion,
+          requisitos,
+          estadoOferta
+         }),
         'headers': { 'Content-Type': 'application/json' },
       })
 
@@ -120,9 +143,46 @@ export default function CrearOfertaPage() {
               }
             </select>
           </div>
-        )
-
-        }
+        )}
+        <div className="mb-2">
+          <label htmlFor="fechaInicio" className="block text-sm font-medium text-gray-700">Fecha de Inicio</label>
+          <input type="date" id="fechaInicio" name="fechaInicio" className="mt-1 block w-full bg-gray-50 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" required />
+        </div>
+        <div className="mb-2">
+          <label htmlFor="fechaFin" className="block text-sm font-medium text-gray-700">Fecha de Fin</label>
+          <input type="date" id="fechaFin" name="fechaFin" className="mt-1 block w-full bg-gray-50 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" required />
+        </div>
+        <div className="mb-2">
+          <label htmlFor="objetivos" className="block text-sm font-medium text-gray-700">Objetivos</label>
+          <input type="text" id="objetivos" name="objetivos" className="mt-1 block w-full bg-gray-50 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" required />
+        </div>
+        <div className="mb-2">
+          <label htmlFor="cantidadVacantes" className="block text-sm font-medium text-gray-700">Cantidad de Vacantes</label>
+          <input type="number" id="cantidadVacantes" name="cantidadVacantes" className="mt-1 block w-full bg-gray-50 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" min="1" required />
+        </div>
+        <div className="mb-2">
+          <label htmlFor="duracion" className="block text-sm font-medium text-gray-700">Duracion (en horas)</label>
+          <input type="number" id="duracion" name="duracion" className="mt-1 block w-full bg-gray-50 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" required />
+        </div>
+        <div className="mb-2">
+          <label htmlFor="requisitos" className="block text-sm font-medium text-gray-700">Requisitos</label>
+          <input type="text" id="requisitos" name="requisitos" className="mt-1 block w-full bg-gray-50 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" required />
+        </div>
+        <div className="mb-4">
+          <select
+            id="estadoOferta"
+            name="estadoOferta"
+            className="mt-1 block w-full bg-gray-50 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 text-center"
+            defaultValue=""
+            required
+          >
+            <option value="" disabled>Elige un estado para la oferta</option>
+            <option value="ABIERTA">Abierta</option>
+            <option value="CERRADA">Cerrada</option>
+            <option value="EN REVISION">En Revisión</option>
+            <option value="CANCELADA">Cancelada</option>            
+          </select>
+        </div>
         <button type="submit" className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">Crear Oferta</button>
       </form>
     </div>

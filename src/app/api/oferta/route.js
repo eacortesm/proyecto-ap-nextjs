@@ -26,3 +26,16 @@ export async function POST(request) {
   }
   return NextResponse.json(data, { status: 201 });
 }
+
+export async function DELETE(request) {
+  const { titulo } = await request.json();
+  const res = await fetch(`${API_URL}/oferta/${titulo}`, {
+    method: 'DELETE',
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json();
+    return NextResponse.json({ error: errorData.message }, { status: res.status });
+  } 
+  return NextResponse.json({ message: 'Oferta eliminada correctamente' }, { status: 200 });
+}
