@@ -1,11 +1,13 @@
 'use client';
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useUsuario } from "@/app/context/UsuarioContext";
 import Navbar from "@/components/Navbar";
 
 export default function CrearOfertaPage() {
   const { usuario } = useUsuario();
+  const router = useRouter();
   const [profesores, setProfesores] = useState([]);
   const [error, setError] = useState(null);
 
@@ -66,6 +68,7 @@ export default function CrearOfertaPage() {
       if (res.ok) {
         console.log('Oferta creada:', data);
         e.target.reset(); 
+        router.push('/');
       } else {
         console.error('Error al crear la oferta:', data.error || 'Error desconocido');
       }
