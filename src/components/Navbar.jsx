@@ -3,8 +3,10 @@
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useUsuario } from '@/app/context/UsuarioContext';
 
 function Navbar({ tipoUsuario }) {
+  const { setUsuario } = useUsuario();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -25,7 +27,7 @@ function Navbar({ tipoUsuario }) {
     try {
       const res = await fetch('/api/logout', { method: 'POST' });
       if (res.ok) {
-        // Aquí opcionalmente limpiar estado de usuario si tienes contexto
+        setUsuario(null);
         router.push('/login');
       } else {
         console.error('Error al cerrar sesión');
