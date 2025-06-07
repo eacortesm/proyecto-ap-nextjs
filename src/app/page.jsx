@@ -61,7 +61,7 @@ function Page() {
                 {ofertas.length > 0 ? (
                   ofertas.map((oferta) => (
                     <li key={oferta._id || oferta.id} className="mb-2">
-                      <Offer offer={oferta} tipoUsuario={usuario.tipoUsuario} handleDelete={() => handleDelete(oferta.titulo)} />
+                      <Offer offer={oferta} tipoUsuario={usuario.tipoUsuario} correo={usuario.email} handleDelete={() => handleDelete(oferta.titulo)} />
                     </li>
                   ))
                 ) : (
