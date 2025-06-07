@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-function Offer({ offer, tipoUsuario, correo, handleDelete }) {
+function Offer({ offer, tipoUsuario, correo, handleDelete, handleUpdate }) {
   const [interesado, setInteresado] = useState(offer.estudiantesInteresados?.some(
     (estudiante) => estudiante.correoEstudiante === correo
   ));
@@ -67,7 +67,7 @@ function Offer({ offer, tipoUsuario, correo, handleDelete }) {
             
         ) : (
           <div className="flex gap-2">
-            <button className="material-symbols-outlined">edit</button>
+            <button onClick={handleUpdate} className="material-symbols-outlined">edit</button>
             <button onClick={handleDelete} className="material-symbols-outlined">delete</button>
           </div>
         )}

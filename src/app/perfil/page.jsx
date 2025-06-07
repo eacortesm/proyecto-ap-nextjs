@@ -2,21 +2,41 @@
 
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
-import { useUsuario } from "../context/UsuarioContext";
+import { useUsuario } from '@/app/context/UsuarioContext';
 
 export default function PerfilPage() {
-  const { usuario } = useUsuario();
+  const { usuario, setUsuario } = useUsuario();
   const email = usuario?.email || "";
 
   const [name, setName] = useState(usuario?.name || "");
   const [apellidos, setApellidos] = useState(usuario?.apellidos || "");
   const [contacto, setContacto] = useState(usuario?.contacto || "");
+  const [telefono, setTelefono] = useState(usuario?.telefono || "");
   const [editando, setEditando] = useState(false);
 
   const handleGuardar = async () => {
     try {
-      
-      setEditando(false);
+      const response = await fetch(`/api/users/${email}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          apellidos,
+          contacto,
+          telefono,
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok && data.success) {
+        setUsuario(data.data);
+        setEditando(false);
+      } else {
+        console.error("Error al guardar los cambios:", data.error || "Error desconocido");
+      }
+
     } catch (error) {
       console.error("Error al guardar:", error);
     }
@@ -44,7 +64,7 @@ export default function PerfilPage() {
           <div className="space-y-5">
             <div>
               <label className="block text-sm font-medium text-gray-600 mb-1">Email</label>
-              <p className="text-gray-800 font-medium">{usuario.email}</p>
+              <p className="text-gray-800 font-medium">{email}</p>
             </div>
 
             <div>
@@ -87,6 +107,22 @@ export default function PerfilPage() {
                   />
                 ) : (
                   <p className="text-gray-800 font-medium">{contacto || "No disponible"}</p>
+                )}
+              </div>
+            )}
+
+            { (usuario.tipoUsuario === "PROFESOR" || usuario.tipoUsuario === "ESCUELA" || usuario.tipoUsuario === "ADMINISTRADOR") && (
+              <div>
+                <label className="block text-sm font-medium text-gray-600 mb-1">Telefono</label>
+                {editando ? (
+                  <input
+                    type="tel"
+                    value={telefono}
+                    onChange={(e) => setTelefono(e.target.value)}
+                    className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                ) : (
+                  <p className="text-gray-800 font-medium">{telefono || "No disponible"}</p>
                 )}
               </div>
             )}

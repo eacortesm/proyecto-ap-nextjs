@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import { useUsuario } from "./context/UsuarioContext";
 import Offer from "@/components/Offer";
+import { useRouter } from "next/navigation";
 
 function Page() {
   const { usuario } = useUsuario();
   const [ofertas, setOfertas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const router = useRouter();
 
   const handleDelete = async (titulo) => {
     try {
@@ -28,6 +30,10 @@ function Page() {
     } catch (err) {
       setError(err.message);
     }
+  }
+
+  const handleUpdate = async (titulo) => {
+    router.push(`/oferta/${titulo}/editar`);
   }
 
   useEffect(() => {
@@ -61,7 +67,7 @@ function Page() {
                 {ofertas.length > 0 ? (
                   ofertas.map((oferta) => (
                     <li key={oferta._id || oferta.id} className="mb-2">
-                      <Offer offer={oferta} tipoUsuario={usuario.tipoUsuario} correo={usuario.email} handleDelete={() => handleDelete(oferta.titulo)} />
+                      <Offer offer={oferta} tipoUsuario={usuario.tipoUsuario} correo={usuario.email} handleDelete={() => handleDelete(oferta.titulo)} handleUpdate={() => handleUpdate(oferta.titulo)} />
                     </li>
                   ))
                 ) : (
