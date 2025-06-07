@@ -29,7 +29,7 @@ export async function GET() {
 
 export async function POST(request) {
   const body = await request.json();
-  const res = await fetch(`${API_URL}/api/signIn`, {
+  const res = await fetch(`${API_URL}/signIn`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

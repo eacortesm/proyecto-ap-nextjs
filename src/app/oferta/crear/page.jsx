@@ -9,7 +9,6 @@ export default function CrearOfertaPage() {
   const { usuario } = useUsuario();
   const router = useRouter();
   const [profesores, setProfesores] = useState([]);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchProfesores() {
@@ -21,7 +20,6 @@ export default function CrearOfertaPage() {
         setProfesores(data.data);
       } catch (err) {
         setProfesores([]);
-        setError(err.message);
       }
     }
 

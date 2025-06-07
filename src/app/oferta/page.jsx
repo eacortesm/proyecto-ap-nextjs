@@ -1,51 +1,48 @@
 'use client';
 
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
-import { useUsuario } from "./context/UsuarioContext";
+import { useUsuario } from "../context/UsuarioContext";
 import Offer from "@/components/Offer";
 
-function Page() {
+export default function OfertaPage() {
   const { usuario } = useUsuario();
+  const searchParams = useSearchParams();
   const [ofertas, setOfertas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const handleDelete = async (titulo) => {
-    try {
-      const res = await fetch('/api/oferta', {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ titulo }),
-      });
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || 'Error al eliminar la oferta');
-      }
-      setOfertas(ofertas.filter(oferta => oferta.titulo !== titulo));
-    } catch (err) {
-      setError(err.message);
-    }
-  }
-
   useEffect(() => {
-    async function fetchOfertas() {
+    const titulo = searchParams.get("titulo") || null;
+    const departamento = searchParams.get("departamento") || null;
+    const requisitos = searchParams.get("requisitos") || null;
+
+    const fetchOfertas = async () => {
       try {
-        const res = await fetch('/api/oferta'); 
+        const res = await fetch('/api/oferta/filtrar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ titulo, departamento, requisitos }),
+        });
+
         if (!res.ok) throw new Error('Error al obtener las ofertas');
+
         const data = await res.json();
-        setOfertas(data);
-      } catch (err) {
-        setError(err.message);
+        setOfertas(data.data);
+      } catch (error) {
+        console.error('Error fetching ofertas:', error);
+        setError(error.message);
+        setOfertas([]);
       } finally {
         setLoading(false);
       }
-    }
+    };
 
     fetchOfertas();
-  }, []);
+  }, [searchParams]);
 
   return (
     <div>
@@ -80,5 +77,3 @@ function Page() {
     </div>
   );
 }
-
-export default Page;
