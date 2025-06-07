@@ -37,6 +37,10 @@ function Navbar({ tipoUsuario }) {
     }
   };
 
+  const handleProfile = () => {
+    router.push('/perfil');
+  }
+
   return (
     <nav className="flex flex-col border-b border-gray-300 bg-gray-400 shadow-sm">
       <div className="flex justify-between items-center px-6 py-4">
@@ -55,6 +59,16 @@ function Navbar({ tipoUsuario }) {
             >
               <span className="material-symbols-outlined text-xl select-none">logout</span>
               <span className="hidden sm:inline">Salir</span>
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={handleProfile}
+              className="flex items-center gap-2 text-gray-700 hover:text-gray-900 transition-colors font-medium"
+              type="button"
+            >
+              <span className="material-symbols-outlined text-xl select-none">account_circle</span>
+              <span className="hidden sm:inline">Perfil</span>
             </button>
           </li>
         </ul>
