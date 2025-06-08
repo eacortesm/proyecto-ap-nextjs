@@ -1,20 +1,84 @@
 'use client';
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 function RegistroEscuela() {
   const [tipoFacultad, setTipoFacultad] = useState("");
+  const router = useRouter();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const email = e.target.correo.value;
+    const name = e.target.nombre.value;
+    const apellidos = e.target.apellidos.value;
+    const telefono = e.target.telefono.value;
+    const password = e.target.contrasena.value;
+
+    if (tipoFacultad === "ES") {
+      const res = await fetch('/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          name,
+          apellidos,
+          telefono,
+          password,
+          escuela: e.target.escuela.value,
+          tipoUsuario: 'ESCUELA',
+        })
+      })
+
+      if (!res.ok) {
+        console.error("Error al registrar la escuela");
+        return;
+      }
+
+      const data = await res.json();
+      console.log(data);
+      router.push('/login')
+    } else if (tipoFacultad === "DE") {
+      const res = await fetch('/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          name,
+          apellidos,
+          telefono,
+          password,
+          tipoUsuario: 'ESCUELA',
+          departamento: e.target.departamento.value,
+        })
+      })
+
+      if (!res.ok) {
+        console.error("Error al registrar el departamento");
+        return;
+      }
+      
+      router.push('/login');
+    }
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <h1 className="text-3xl font-bold">Escuela/Departamento</h1>
 
-      <form className="flex flex-col gap-4 mt-4 border p-4 rounded-lg shadow-lg bg-gray-300 pt-8 max-h-[80vh] overflow-y-auto w-full max-w-80 min-w-40">
+      <form className="flex flex-col gap-4 mt-4 border p-4 rounded-lg shadow-lg bg-gray-300 pt-8 max-h-[80vh] overflow-y-auto w-full max-w-80 min-w-40" onSubmit={handleSubmit}>
 
         <input type="email" id="correo" placeholder="Correo ITCR" className="border rounded-2xl border-none p-2 bg-white text-center text-black" required />
 
         <input type="text" id="nombre" placeholder="Nombre" className="border rounded-2xl border-none p-2 bg-white text-center text-black" required />
+
+        <input type="text" id="apellidos" placeholder="Apellidos" className="border rounded-2xl border-none p-2 bg-white text-center text-black" required />
 
         <input type="tel" id="telefono" placeholder="Teléfono" className="border rounded-2xl border-none p-2 bg-white text-center text-black" required />
 
@@ -26,7 +90,7 @@ function RegistroEscuela() {
           onChange={(e) => setTipoFacultad(e.target.value)}
           required
         >
-          <option value="" disabled>Elige un nivel académico</option>
+          <option value="" disabled>Elige el tipo de facultad</option>
           <option value="ES">Escuela</option>
           <option value="DE">Departamento</option>
         </select>
@@ -39,7 +103,7 @@ function RegistroEscuela() {
             defaultValue=""
             required
           >
-            <option value="" disabled>Elige un departamento</option>
+            <option value="" disabled>Selecciona un departamento</option>
 						<option value="DAM">Departamento de Administración de Mantenimiento</option>
 						<option value="DATIC">Departamento de Administración de Tecnologías de Información y Comunicaciones</option>
 						<option value="DAR">Departamento de Administración y Registro</option>
