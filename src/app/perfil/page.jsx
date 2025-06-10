@@ -1,10 +1,12 @@
 'use client';
 
 import { useState } from "react";
+import { useRouter } from "next/navigation"; // Add this import
 import Navbar from "@/components/Navbar";
 import { useUsuario } from '@/app/context/UsuarioContext';
 
 export default function PerfilPage() {
+  const router = useRouter(); // Add this line
   const { usuario, setUsuario } = useUsuario();
   const email = usuario?.email || "";
 
@@ -40,6 +42,11 @@ export default function PerfilPage() {
     } catch (error) {
       console.error("Error al guardar:", error);
     }
+  };
+
+  // Add a navigation function
+  const navigateToPromedio = () => {
+    router.push('/Promedios'); 
   };
 
   if (!usuario) {
@@ -129,22 +136,42 @@ export default function PerfilPage() {
 
             <div className="pt-4">
               {editando ? (
-                <div className="flex gap-4 justify-end">
+                <div className="flex justify-between">
+                  {/* New button on the left */}
                   <button
-                    onClick={handleGuardar}
-                    className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition"
+                    onClick={() => console.log("Acción adicional")}
+                    className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition"
                   >
-                    Guardar
+                    Acción adicional
                   </button>
-                  <button
-                    onClick={() => setEditando(false)}
-                    className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-lg transition"
-                  >
-                    Cancelar
-                  </button>
+                  
+                  {/* Existing buttons on the right */}
+                  <div className="flex gap-4">
+                    <button
+                      onClick={handleGuardar}
+                      className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition"
+                    >
+                      Guardar
+                    </button>
+                    <button
+                      onClick={() => setEditando(false)}
+                      className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-lg transition"
+                    >
+                      Cancelar
+                    </button>
+                  </div>
                 </div>
               ) : (
-                <div className="text-right">
+                <div className="flex justify-between">
+                  {/* Update the button to use the navigation function */}
+                  <button
+                    onClick={navigateToPromedio}
+                    className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition"
+                  >
+                    obtener promedio
+                  </button>
+                  
+                  {/* Existing button on the right */}
                   <button
                     onClick={() => setEditando(true)}
                     className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg transition"
