@@ -12,7 +12,7 @@ export async function GET() {
     return NextResponse.json({ success: false, usuario: null });
   }
 
-  const res = await fetch(`${API_URL}/usuario`, {
+  const res = await fetch(`${API_URL}/users`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

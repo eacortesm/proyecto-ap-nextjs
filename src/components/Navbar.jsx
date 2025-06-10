@@ -114,6 +114,20 @@ function Navbar({ tipoUsuario }) {
               </Link>
             </li>
           )}
+          { tipoUsuario === 'ADMINISTRADOR' && (
+            <li>
+              <Link
+                href="/admin"
+                className={`material-symbols-outlined cursor-pointer transition-colors ${
+                  pathname === '/admin' ? 'text-gray-900' : 'hover:text-gray-900'
+                }`}
+                aria-label="Administrar Usuarios"
+                title="Administrar Usuarios"
+              >
+                manage_accounts
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </nav>
