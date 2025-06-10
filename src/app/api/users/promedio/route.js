@@ -40,17 +40,19 @@ export async function POST(request) {
     // Step 1: First visit main page to get initial cookies
     await client.get('/');
     
-    // Step 2: Login with form post
-    const formData = new URLSearchParams();
-    formData.append('email', email);
-    formData.append('password', password);
-    formData.append('return_url', '/dotlrn/index');
-    
-    const loginResponse = await client.post('/dotlrn/register', formData.toString(), {
+    // Step 2: Login with JSON post (matching the original Kotlin implementation)
+    const loginRequest = {
+      email,
+      password,
+      return_url: "/dotlrn/index"
+    };
+
+    const loginResponse = await client.post('/api/login/new-form', loginRequest, {
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json, text/plain, */*',
         'Origin': 'https://tecdigital.tec.ac.cr',
-        'Referer': 'https://tecdigital.tec.ac.cr/dotlrn/',
+        'Referer': 'https://tecdigital.tec.ac.cr/',
       }
     });
     
