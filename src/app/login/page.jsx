@@ -29,7 +29,7 @@ export default function Page() {
 				router.push('/');
 			}, 0)
     } else {
-      console.error(data.message || 'Credenciales inválidas');
+      alert(data.message || 'Error al iniciar sesión');
     }
   } catch (error) {
     console.error('Error al iniciar sesión:', error);
