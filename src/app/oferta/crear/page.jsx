@@ -10,6 +10,10 @@ export default function CrearOfertaPage() {
   const router = useRouter();
   const [profesores, setProfesores] = useState([]);
 
+  const [reqPromedio, setReqPromedio] = useState(false);
+  const [reqAdicional, setReqAdicional] = useState(false);
+  const [promedioMin, setPromedioMin] = useState('');
+
   useEffect(() => {
     async function fetchProfesores() {
       try {
@@ -40,7 +44,7 @@ export default function CrearOfertaPage() {
       const objetivos = e.target.objetivos.value;
       const cantidadVacantes = e.target.cantidadVacantes.value;
       const duracion = e.target.duracion.value;
-      const requisitos = e.target.requisitos.value;
+      const requisitos = { promedioMin: parseInt(promedioMin), reqAdicional: reqAdicional }
       const estadoOferta = e.target.estadoOferta.value;
 
       const res = await fetch('/api/oferta', {
@@ -70,6 +74,7 @@ export default function CrearOfertaPage() {
       } else {
         console.error('Error al crear la oferta:', data.error || 'Error desconocido');
       }
+      
     } catch (error) {
       console.error('Error al crear la oferta:', error);
     }
@@ -165,9 +170,41 @@ export default function CrearOfertaPage() {
           <label htmlFor="duracion" className="block text-sm font-medium text-gray-700">Duracion (en horas)</label>
           <input type="number" id="duracion" name="duracion" className="mt-1 block w-full bg-gray-50 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" required />
         </div>
-        <div className="mb-2">
-          <label htmlFor="requisitos" className="block text-sm font-medium text-gray-700">Requisitos</label>
-          <input type="text" id="requisitos" name="requisitos" className="mt-1 block w-full bg-gray-50 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" required />
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Requisitos</label>
+          <div className="flex flex-col gap-2">
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                checked={reqPromedio}
+                onChange={e => setReqPromedio(e.target.checked)}
+                className="form-checkbox"
+              />
+              <span className="ml-2">Promedio mínimo</span>
+            </label>
+            {reqPromedio && (
+              <input
+                type="number"
+                step="1"
+                min="40"
+                max="100"
+                value={promedioMin}
+                onChange={e => setPromedioMin(e.target.value)}
+                placeholder="Ingrese el promedio mínimo"
+                className="ml-6 w-40 bg-gray-50 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 px-2 py-1 text-sm"
+                required
+              />
+            )}
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                checked={reqAdicional}
+                onChange={e => setReqAdicional(e.target.checked)}
+                className="form-checkbox"
+              />
+              <span className="ml-2">Requisitos adicionales (entrevistas, pruebas técnicas)</span>
+            </label>
+          </div>
         </div>
         <div className="mb-4">
           <select
