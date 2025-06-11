@@ -49,7 +49,7 @@ export default function AdminPage() {
       <Navbar tipoUsuario={usuario.tipoUsuario} />
       <main>
         <h2 className="text-2xl mb-4 text-center">Panel de administradores</h2>
-        <ul className="w-full max-w-6xl mx-auto grid grid-cols-1 gap-6">
+        <ul className="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
           { usuarios.length > 0 ? (
             usuarios.map((user) => (
               
