@@ -129,11 +129,10 @@ function Navbar({ tipoUsuario }) {
             </li>
             
           )}
-
           { tipoUsuario === 'ADMINISTRADOR' && (
             <li>
               <Link
-                href="/Backups/Generar"
+                href="/backups/generar"
                 className={`material-symbols-outlined cursor-pointer transition-colors ${
                   pathname === '/admin' ? 'text-gray-900' : 'hover:text-gray-900'
                 }`}
