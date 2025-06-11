@@ -6,19 +6,18 @@ import { useEffect, useState } from "react";
 import Usuarios from "@/components/Usuarios";
 
 export default function AdminPage() {
-  const { usuario } = useUsuario();
+  const { usuario, loading } = useUsuario();
   const [usuarios, setUsuarios] = useState([]);
 
   useEffect(() => {
     async function fetchUsuarios() {
       try {
-        const res = await fetch('/api/users');
+        const res = await fetch('/api/usuarios');
         if (!res.ok) {
           throw new Error('Error al obtener los usuarios');
         }
         const data = await res.json();
-        console.log(data)
-        setUsuarios(data);
+        setUsuarios(data.data);
       } catch (error) {
         console.error('Error fetching usuarios:', error);
       }
@@ -26,6 +25,24 @@ export default function AdminPage() {
 
     fetchUsuarios();
   }, []);
+
+  if (loading) {
+    return (
+      <div>
+        <Navbar />
+        <p className="text-gray-600">Cargando...</p>
+      </div>
+    );
+  }
+
+  if (!usuario) {
+    return (
+      <div>
+        <Navbar />
+        <p className="text-gray-600">Por favor, inicia sesión para acceder al panel de administradores.</p>
+      </div>
+    )
+  }
 
   return (
     <div>
@@ -35,6 +52,7 @@ export default function AdminPage() {
         <ul className="w-full max-w-6xl mx-auto grid grid-cols-1 gap-6">
           { usuarios.length > 0 ? (
             usuarios.map((user) => (
+              
               <li key={user.email} className="mb-2">
                 <Usuarios usuario={user} />
               </li>
