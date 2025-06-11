@@ -35,10 +35,11 @@ function RegistroEstudiante() {
 		const carrera = e.target.carrera.value;
 		const nivelAcademico = e.target.nivel.value;
 		const contacto = e.target.contacto.value;
+		const tipoUsuario = "ESTUDIANTE";
 
-		const res = await fetch(`/api/signIn`, {
+		const res = await fetch(`/api/users`, {
 			method: 'POST',
-			body: JSON.stringify({email, name, apellidos, password, carnet, carrera, nivelAcademico, contacto}),
+			body: JSON.stringify({email, name, apellidos, password, carnet, carrera, nivelAcademico, contacto, tipoUsuario}),
 			headers: {
 				'Content-Type': 'application/json'
 			}
