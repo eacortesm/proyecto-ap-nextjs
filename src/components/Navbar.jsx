@@ -134,7 +134,7 @@ function Navbar({ tipoUsuario }) {
               <Link
                 href="/backups/generar"
                 className={`material-symbols-outlined cursor-pointer transition-colors ${
-                  pathname === '/admin' ? 'text-gray-900' : 'hover:text-gray-900'
+                  pathname === '/backups/generar' ? 'text-gray-900' : 'hover:text-gray-900'
                 }`}
                 aria-label="Generar Respaldos"
                 title="Generar Respaldos"
