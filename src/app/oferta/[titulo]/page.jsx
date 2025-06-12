@@ -35,7 +35,7 @@ export default function OfertaInfo() {
         await fetch(`/api/oferta/${titulo}/estudiante/${correoEstudiante}`,
           {method: "DELETE"}
         )
-        
+        window.location.reload()
       } catch(err) {
         alert("Error al eliminar estudiante.")
       }
