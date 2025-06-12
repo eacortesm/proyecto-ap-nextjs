@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 const API_URL = process.env.API_URL;
 
 export async function DELETE(request, { params }) {
-  const { titulo, correoEstudiante } = params;
+  const { titulo, correoEstudiante } = await params;
 
   const res = await fetch(`${API_URL}/oferta/${titulo}/estudiante/${correoEstudiante}`, {
     method: 'DELETE',

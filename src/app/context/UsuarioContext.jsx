@@ -19,9 +19,12 @@ export function UsuarioProvider({ children }) {
         if (res.ok) {
           const data = await res.json();
           setUsuario(data.usuario);
+        } else {
+          setUsuario(null);
         }
       } catch (error) {
         console.error('Error fetching usuario:', error);
+        setUsuario(null);
       } finally {
         setLoading(false);
       }
@@ -29,6 +32,15 @@ export function UsuarioProvider({ children }) {
 
     fetchUsuario();
   }, []);
+
+
+if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-gray-800 text-white">
+        <p className="text-xl">Cargando...</p>
+      </div>
+    );
+  }
 
   return (
     <UsuarioContext.Provider value={{ usuario, setUsuario, loading }}>

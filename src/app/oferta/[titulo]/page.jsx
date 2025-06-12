@@ -4,7 +4,7 @@ import { useUsuario } from "@/app/context/UsuarioContext";
 import { useParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import { useEffect, useState } from "react";
-
+import EstudianteInteresado from "@/components/EstudianteInteresado";
 
 export default function OfertaInfo() {
 
@@ -29,6 +29,17 @@ export default function OfertaInfo() {
     
         getOferta();
     }, [])
+
+    async function eliminarEstudiante(correoEstudiante) {
+      try {
+        await fetch(`/api/oferta/${titulo}/estudiante/${correoEstudiante}`,
+          {method: "DELETE"}
+        )
+        
+      } catch(err) {
+        alert("Error al eliminar estudiante.")
+      }
+    }
 
     function CampoOferta({ etiqueta, valor }) {
       return (
@@ -84,6 +95,25 @@ export default function OfertaInfo() {
                           </ul>
                         }/>
                         <CampoOferta etiqueta={"Estado de la oferta"} valor={oferta.estadoOferta} />
+
+                        <div className="mt-8">
+                          <label className="block text-gray-700 font-semibold mb-2">Estudiantes interesados</label>
+                          {Array.isArray(oferta.estudiantesInteresados) && oferta.estudiantesInteresados.length > 0 ? (
+                            <div className="space-y-2">
+                              {oferta.estudiantesInteresados.map((est, idx) => (
+                                <EstudianteInteresado
+                                  key={est.correoEstudiante || idx}
+                                  correoEstudiante={est.correoEstudiante}
+                                  aceptado={est.aceptado}
+                                  promedioPonderado={est.promedioPonderado}
+                                  onEliminar={() => {eliminarEstudiante(est.correoEstudiante)}}
+                                />
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="text-gray-500">No hay estudiantes interesados aún.</div>
+                          )}
+                        </div>
                         </div>
                     ) }
                 </div>
