@@ -96,6 +96,7 @@ export default function OfertaInfo() {
                         }/>
                         <CampoOferta etiqueta={"Estado de la oferta"} valor={oferta.estadoOferta} />
 
+                        { usuario.tipoUsuario == "ESTUDIANTE" ? ( <div></div> ) : (
                         <div className="mt-8">
                           <label className="block text-gray-700 font-semibold mb-2">Estudiantes interesados</label>
                           {Array.isArray(oferta.estudiantesInteresados) && oferta.estudiantesInteresados.length > 0 ? (
@@ -114,6 +115,7 @@ export default function OfertaInfo() {
                             <div className="text-gray-500">No hay estudiantes interesados aún.</div>
                           )}
                         </div>
+                        ) }
                         </div>
                     ) }
                 </div>
