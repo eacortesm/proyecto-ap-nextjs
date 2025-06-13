@@ -101,9 +101,7 @@ function Page() {
     });
   } else {
     toast("Ocurrio un error", { position: 'top-center' });
-  }
-
-  }
+  }}
 
   return (
     <div>

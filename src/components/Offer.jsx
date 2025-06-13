@@ -56,6 +56,31 @@ function Offer({ offer, tipoUsuario, correo, handleDelete, handleUpdate, handleS
     }
   };
 
+  const handleClone = async () => {
+    const { _id, ...rest } = offer;
+    const clonedOffer = {
+      ...rest,
+      titulo: `Copia de ${offer.titulo}`,
+      estudiantesInteresados: [],
+    };
+
+
+    const res = await fetch('/api/oferta', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(clonedOffer),
+    })
+    if (res.ok) {
+      const data = await res.json();
+      toast.success('Oferta clonada correctamente');
+    } else {
+      const errorData = await res.json();
+      toast.error(`Error al clonar oferta: ${errorData.error}`);
+    }
+  }
+
   const infoClick = () => {
     router.push(`/oferta/${encodeURIComponent(offer.titulo)}`);
   };
@@ -85,7 +110,7 @@ function Offer({ offer, tipoUsuario, correo, handleDelete, handleUpdate, handleS
           <div className="flex gap-2">
             <button onClick={handleUpdate} className="material-symbols-outlined">edit</button>
             <button onClick={handleDelete} className="material-symbols-outlined">delete</button>
-            <button onClick={() => handleClone(offer)} className="material-symbols-outlined">content_copy</button>
+            <button onClick={handleClone} className="material-symbols-outlined">content_copy</button>
           </div>
         )}
         <button className="cursor-pointer hover:text-yellow-500"
