@@ -77,14 +77,15 @@ function Offer({ offer, tipoUsuario, correo, handleDelete, handleUpdate, handleS
       <div className="mt-4 flex justify-between gap-2">
         { tipoUsuario === 'ESTUDIANTE' ? (
           <div className="flex gap-2">
-            <button className="material-symbols-outlined border rounded-lg" onClick={handleClick}>
+            <button className="material-symbols-outlined" onClick={handleClick}>
               {interesado ? 'remove' : 'add'}
             </button>
           </div>
         ) : (
           <div className="flex gap-2">
-            <button onClick={handleUpdate} className="material-symbols-outlined border rounded-lg">edit</button>
-            <button onClick={handleDelete} className="material-symbols-outlined border rounded-lg">delete</button>
+            <button onClick={handleUpdate} className="material-symbols-outlined">edit</button>
+            <button onClick={handleDelete} className="material-symbols-outlined">delete</button>
+            <button onClick={() => handleClone(offer)} className="material-symbols-outlined">content_copy</button>
           </div>
         )}
         <button className="cursor-pointer hover:text-yellow-500"
