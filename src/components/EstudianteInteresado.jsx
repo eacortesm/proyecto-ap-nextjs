@@ -26,17 +26,15 @@ function EstudianteInteresado({ correoEstudiante, aceptado, promedioPonderado, o
           <button
             //onClick={onAceptar}
             className="text-green-600 hover:bg-green-100 rounded p-1 transition"
-            title="Aceptar estudiante"
-          >
-            ✔️
+            title="Aceptar estudiante">
+            <span className="material-symbols-outlined text-xl select-none">check</span>
           </button>
         )}
         <button
           onClick={onEliminar}
           className="text-red-600 hover:bg-red-100 rounded p-1 transition"
-          title="Eliminar estudiante"
-        >
-          ❌
+          title="Eliminar estudiante">
+          <span className="material-symbols-outlined text-xl select-none">close</span>
         </button>
       </div>
     </div>

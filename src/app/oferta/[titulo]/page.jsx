@@ -105,7 +105,9 @@ export default function OfertaInfo() {
                             <label className="block text-gray-700 font-semibold mb-2">Estudiantes interesados</label>
                             <div className="relative">
                               <button className="flex items-center w-5 h-5 hover:shadow-2xl"
-                            onClick={() => { setFiltroAbierto(!filtroAbierto) }}>🔍</button>
+                            onClick={() => { setFiltroAbierto(!filtroAbierto) }}>
+                              <span className="material-symbols-outlined text-xl select-none">filter_list</span>
+                            </button>
 
                             {filtroAbierto && (
                               <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">

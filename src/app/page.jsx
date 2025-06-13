@@ -59,7 +59,7 @@ function Page() {
         <div>
           <Navbar tipoUsuario={usuario.tipoUsuario} />
           <main>
-            <h2 className="text-2xl mb-4 text-center">¡Bienvenido {usuario.name}!</h2>
+            <h2 className="text-2xl mb-4 mt-4 text-center">¡Bienvenido {usuario.name}!</h2>
             {loading && <p>Cargando ofertas...</p>}
             {error && <p className="text-red-500">Error: {error}</p>}
             {!loading && !error && (
