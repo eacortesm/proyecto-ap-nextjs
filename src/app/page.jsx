@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import { useUsuario } from "./context/UsuarioContext";
 import Offer from "@/components/Offer";
 import { useRouter } from "next/navigation";
+import toast, { Toaster } from 'react-hot-toast';
 
 function Page() {
   const { usuario, setUsuario } = useUsuario();
@@ -78,16 +79,35 @@ function Page() {
     let userData = await res.json()
     setUsuario(userData.usuario.usuario);
     boolStar ?
-    alert("Favorito eliminado.") :
-    alert("Favorito agregado")
+    toast.success('Agregado a Favoritos!', {
+    position: 'top-center',
+    icon: '⭐',
+    style: {
+      borderRadius: '10px',
+      background: '#4ade80',
+      color: '#fff',
+      fontWeight: 'bold',
+    },
+    }) :
+    toast('Eliminado de Favoritos', {
+    position: 'top-center',
+    icon: '❌',
+    style: {
+      borderRadius: '10px',
+      background: '#f59e0b',
+      color: '#fff',
+      fontWeight: 'bold',
+    },
+    });
   } else {
-    alert("Ocurrio un error.")
+    toast("Ocurrio un error", { position: 'top-center' });
   }
 
   }
 
   return (
     <div>
+      
       {usuario ? (
         <div>
           <Navbar tipoUsuario={usuario.tipoUsuario} />
@@ -95,7 +115,7 @@ function Page() {
             <div className="flex justify-between items-center mb-4 mt-4 max-w-6xl mx-auto px-4">
               <h2 className="text-2xl">¡Bienvenido {usuario.name}!</h2>
               <button 
-                onClick={ () => { setShowFavorites(!showFavorites); console.log(usuario) } }
+                onClick={ () => { setShowFavorites(!showFavorites); } }
                 className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors">
                 <span className={`text-2xl ${showFavorites ? 'text-yellow-500' : 'text-gray-400'}`}>
                   ★
