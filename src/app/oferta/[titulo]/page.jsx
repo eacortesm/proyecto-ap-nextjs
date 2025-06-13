@@ -13,6 +13,9 @@ export default function OfertaInfo() {
     const [oferta, setOferta] = useState(null);
     const [cargando, setCargando] = useState(true);
 
+    const [filtroAbierto, setFiltroAbierto] = useState(false);
+    const [orden, setOrden] = useState(null);
+
     useEffect(() => {
 
         async function getOferta() {
@@ -98,10 +101,59 @@ export default function OfertaInfo() {
 
                         { usuario.tipoUsuario == "ESTUDIANTE" ? ( <div></div> ) : (
                         <div className="mt-8">
-                          <label className="block text-gray-700 font-semibold mb-2">Estudiantes interesados</label>
+                          <div className="flex items-center justify-between mb-2">
+                            <label className="block text-gray-700 font-semibold mb-2">Estudiantes interesados</label>
+                            <div className="relative">
+                              <button className="flex items-center w-5 h-5 hover:shadow-2xl"
+                            onClick={() => { setFiltroAbierto(!filtroAbierto) }}>🔍</button>
+
+                            {filtroAbierto && (
+                              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+                                <div className="py-1">
+                                  <button
+                                    onClick={() => {
+                                      setOrden('asc');
+                                      setFiltroAbierto(false);
+                                    }}
+                                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                  >
+                                    Promedio (Menor a Mayor)
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      setOrden('desc');
+                                      setFiltroAbierto(false);
+                                    }}
+                                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                  >
+                                    Promedio (Mayor a Menor)
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      setOrden(null);
+                                      setFiltroAbierto(false);
+                                    }}
+                                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                  >
+                                    Sin orden
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                            </div>
+                          </div>
                           {Array.isArray(oferta.estudiantesInteresados) && oferta.estudiantesInteresados.length > 0 ? (
-                            <div className="space-y-2">
-                              {oferta.estudiantesInteresados.map((est, idx) => (
+                          <div className="space-y-2">
+                            {[...oferta.estudiantesInteresados]
+                              .sort((a, b) => {
+                                if (!orden) return 0;
+                                if (orden === 'asc') {
+                                  return (a.promedioPonderado || 0) - (b.promedioPonderado || 0);
+                                } else {
+                                  return (b.promedioPonderado || 0) - (a.promedioPonderado || 0);
+                                }
+                              })
+                              .map((est, idx) => (
                                 <EstudianteInteresado
                                   key={est.correoEstudiante || idx}
                                   correoEstudiante={est.correoEstudiante}
@@ -110,10 +162,10 @@ export default function OfertaInfo() {
                                   onEliminar={() => {eliminarEstudiante(est.correoEstudiante)}}
                                 />
                               ))}
-                            </div>
-                          ) : (
-                            <div className="text-gray-500">No hay estudiantes interesados aún.</div>
-                          )}
+                          </div>
+                        ) : (
+                          <div className="text-gray-500">No hay estudiantes interesados aún.</div>
+                        )}
                         </div>
                         ) }
                         </div>
