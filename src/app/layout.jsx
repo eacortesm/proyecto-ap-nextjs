@@ -1,5 +1,6 @@
 import { inter } from '@/app/ui/fonts';
 import './globals.css';
+import { Toaster } from 'react-hot-toast';
 import { UsuarioProvider } from './context/UsuarioContext';
 import { GET as getUsuario } from './api/users/route'; // ⚠️ Importas el handler directamente
 
@@ -28,6 +29,7 @@ export default async function RootLayout({ children }) {
       </head>
       <body className={`${inter.className}`}>
         <UsuarioProvider initialUsuario={initialUser}> {/* ✅ Pasa el usuario inicial */}
+          <Toaster position="top-right" />
           {children}
         </UsuarioProvider>
       </body>

@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 function Offer({ offer, tipoUsuario, correo, handleDelete, handleUpdate }) {
   const router = useRouter()
@@ -21,8 +22,10 @@ function Offer({ offer, tipoUsuario, correo, handleDelete, handleUpdate }) {
 
     if (response.ok) {
       setInteresado(true);
+      toast.success('Estudiante interesado agregado correctamente');
     } else {
       console.error('Error al agregar estudiante interesado');
+      toast.error('Error al agregar estudiante interesado');
     }
   };
 
@@ -35,9 +38,11 @@ function Offer({ offer, tipoUsuario, correo, handleDelete, handleUpdate }) {
     });
 
     if (response.ok) {
+      toast.success('Estudiante interesado eliminado correctamente');
       setInteresado(false);
     } else {
       console.error('Error al eliminar estudiante interesado');
+      toast.error('Error al eliminar estudiante interesado');
     }
   }
 
@@ -60,6 +65,9 @@ function Offer({ offer, tipoUsuario, correo, handleDelete, handleUpdate }) {
 
       <h3 className="text-xl font-semibold text-cyan-900 mb-2 cursor-pointer"
       onClick={infoClick}>{offer.titulo}</h3>
+      {interesado && (
+        <span className="text-green-600 text-sm font-semibold">Ya estás postulado</span>
+      )}
 
       <p className="text-gray-700 mb-4">{offer.descripcion}</p>
       <div className="text-sm text-gray-500 flex justify-between">
