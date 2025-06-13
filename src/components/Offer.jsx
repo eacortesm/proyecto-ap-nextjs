@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-function Offer({ offer, tipoUsuario, correo, handleDelete, handleUpdate }) {
+function Offer({ offer, tipoUsuario, correo, handleDelete, handleUpdate, handleStar }) {
   const router = useRouter()
   const [interesado, setInteresado] = useState(offer.estudiantesInteresados?.some(
     (estudiante) => estudiante.correoEstudiante === correo
@@ -66,20 +66,23 @@ function Offer({ offer, tipoUsuario, correo, handleDelete, handleUpdate }) {
         <span>Inicio: <time>{offer.fechaInicio}</time></span>
         <span>Fin: <time>{offer.fechaFin}</time></span>
       </div>
-      <div className="mt-4 flex gap-2">
+      <div className="mt-4 flex justify-between gap-2">
         { tipoUsuario === 'ESTUDIANTE' ? (
           <div className="flex gap-2">
             <button className="material-symbols-outlined border rounded-lg" onClick={handleClick}>
               {interesado ? 'remove' : 'add'}
             </button>
           </div>
-            
         ) : (
           <div className="flex gap-2">
             <button onClick={handleUpdate} className="material-symbols-outlined border rounded-lg">edit</button>
             <button onClick={handleDelete} className="material-symbols-outlined border rounded-lg">delete</button>
           </div>
         )}
+        <button className="cursor-pointer hover:text-yellow-500"
+        onClick={handleStar}>
+        <span className={`text-2xl`}>★</span>
+        </button>
       </div>
     </div>
   );
