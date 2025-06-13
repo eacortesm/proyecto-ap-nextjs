@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 const API_URL = process.env.API_URL;
 
 export async function POST(request, {params}) {
-  const { titulo } = await params;
+  const { titulo } = params;
   const body = await request.json();
   
   const res = await fetch(`${API_URL}/oferta/${titulo}/estudiante  `, {
