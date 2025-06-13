@@ -7,10 +7,11 @@ import Offer from "@/components/Offer";
 import { useRouter } from "next/navigation";
 
 function Page() {
-  const { usuario } = useUsuario();
+  const { usuario, setUsuario } = useUsuario();
   const [ofertas, setOfertas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showFavorites, setShowFavorites] = useState(false);
   const router = useRouter();
 
   const handleDelete = async (titulo) => {
@@ -36,6 +37,10 @@ function Page() {
     router.push(`/oferta/${titulo}/editar`);
   }
 
+  let ofertasFiltradas = showFavorites ?
+  ofertas.filter(oferta => usuario?.favorites?.includes(oferta.titulo))
+  : ofertas;
+
   useEffect(() => {
     async function fetchOfertas() {
       try {
@@ -53,21 +58,64 @@ function Page() {
     fetchOfertas();
   }, []);
 
+  const handleStar = async (titulo) => {
+  let boolStar = usuario.favorites?.includes(titulo)
+  let res;
+
+  if (!boolStar) {
+    res = await fetch(`/api/users/${usuario.email}/favorite`, {
+      method: "POST",
+      body: JSON.stringify({ "favoriteId": titulo })
+    })
+  } else {
+    res = await fetch(`/api/users/${usuario.email}/delfavorite`, {
+      method: "POST",
+      body: JSON.stringify({ "favoriteId": titulo })
+    })
+  }
+
+  if (res.ok) {
+    let userData = await res.json()
+    setUsuario(userData.usuario.usuario);
+    boolStar ?
+    alert("Favorito eliminado.") :
+    alert("Favorito agregado")
+  } else {
+    alert("Ocurrio un error.")
+  }
+
+  }
+
   return (
     <div>
       {usuario ? (
         <div>
           <Navbar tipoUsuario={usuario.tipoUsuario} />
           <main>
-            <h2 className="text-2xl mb-4 mt-4 text-center">¡Bienvenido {usuario.name}!</h2>
+            <div className="flex justify-between items-center mb-4 mt-4 max-w-6xl mx-auto px-4">
+              <h2 className="text-2xl">¡Bienvenido {usuario.name}!</h2>
+              <button 
+                onClick={ () => { setShowFavorites(!showFavorites); console.log(usuario) } }
+                className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors">
+                <span className={`text-2xl ${showFavorites ? 'text-yellow-500' : 'text-gray-400'}`}>
+                  ★
+                </span>
+                {showFavorites ? 'Mostrar todas' : 'Mostrar favoritos'}
+              </button>
+            </div>
             {loading && <p>Cargando ofertas...</p>}
             {error && <p className="text-red-500">Error: {error}</p>}
             {!loading && !error && (
               <ul className="w-full max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {ofertas.length > 0 ? (
-                  ofertas.map((oferta) => (
+                {ofertasFiltradas.length > 0 ? (
+                  ofertasFiltradas.map((oferta) => (
                     <li key={oferta._id || oferta.id} className="mb-2">
-                      <Offer offer={oferta} tipoUsuario={usuario.tipoUsuario} correo={usuario.email} handleDelete={() => handleDelete(oferta.titulo)} handleUpdate={() => handleUpdate(oferta.titulo)} />
+                      <Offer offer={oferta} 
+                      tipoUsuario={usuario.tipoUsuario} 
+                      correo={usuario.email} 
+                      handleDelete={() => handleDelete(oferta.titulo)} 
+                      handleUpdate={() => handleUpdate(oferta.titulo)} 
+                      handleStar={() => handleStar(oferta.titulo)} />
                     </li>
                   ))
                 ) : (
