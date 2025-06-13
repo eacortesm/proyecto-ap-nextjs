@@ -9,11 +9,9 @@ import toast, { Toaster } from 'react-hot-toast';
 
 function Page() {
   const { usuario, setUsuario } = useUsuario();
-  const { usuario, setUsuario } = useUsuario();
   const [ofertas, setOfertas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showFavorites, setShowFavorites] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
   const router = useRouter();
 
@@ -39,10 +37,6 @@ function Page() {
   const handleUpdate = async (titulo) => {
     router.push(`/oferta/${titulo}/editar`);
   }
-
-  let ofertasFiltradas = showFavorites ?
-  ofertas.filter(oferta => usuario?.favorites?.includes(oferta.titulo))
-  : ofertas;
 
   let ofertasFiltradas = showFavorites ?
   ofertas.filter(oferta => usuario?.favorites?.includes(oferta.titulo))
