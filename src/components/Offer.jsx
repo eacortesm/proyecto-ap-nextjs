@@ -9,6 +9,7 @@ function Offer({ offer, tipoUsuario, correo, handleDelete, handleUpdate, handleS
   const [interesado, setInteresado] = useState(offer.estudiantesInteresados?.some(
     (estudiante) => estudiante.correoEstudiante === correo
   ));
+  const [bloqueada, setBloqueada] = useState(offer.estadoOferta === 'BLOQUEADA')
 
   const agregarInteresado = async () => {
     console.log(correo);
@@ -64,7 +65,6 @@ function Offer({ offer, tipoUsuario, correo, handleDelete, handleUpdate, handleS
       estudiantesInteresados: [],
     };
 
-
     const res = await fetch('/api/oferta', {
       method: 'POST',
       headers: {
@@ -84,6 +84,40 @@ function Offer({ offer, tipoUsuario, correo, handleDelete, handleUpdate, handleS
   const infoClick = () => {
     router.push(`/oferta/${encodeURIComponent(offer.titulo)}`);
   };
+
+  const handleBlock = async () => {
+    if (bloqueada) {
+      const res = await fetch(`/api/oferta/${offer.titulo}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/ json',
+        },
+        body: JSON.stringify({ estadoOferta: 'ABIERTA' }),
+      })
+      if (res.ok) {
+        setBloqueada(false);
+        toast.success('Oferta desbloqueada correctamente');
+      } else {
+        const errorData = await res.json();
+        toast.error(`Error al desbloquear oferta: ${errorData.error}`);
+      }
+    } else {
+      const res = await fetch(`/api/oferta/${offer.titulo}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ estadoOferta: 'BLOQUEADA' }),
+      })
+      if (res.ok) {
+        setBloqueada(true);
+        toast.success('Oferta bloqueada correctamente');
+      } else {
+        const errorData = await res.json();
+        toast.error(`Error al bloquear oferta: ${errorData.error}`);
+      }
+    }
+  }
 
   return (
     <div className="bg-white shadow-md rounded-lg p-6 mb-4 border border-gray-200 hover:shadow-2xl transition-shadow duration-300">
@@ -111,6 +145,9 @@ function Offer({ offer, tipoUsuario, correo, handleDelete, handleUpdate, handleS
             <button onClick={handleUpdate} className="material-symbols-outlined">edit</button>
             <button onClick={handleDelete} className="material-symbols-outlined">delete</button>
             <button onClick={handleClone} className="material-symbols-outlined">content_copy</button>
+            { tipoUsuario === 'ESCUELA' && (
+              <button onClick={handleBlock} className="material-symbols-outlined">{bloqueada ? 'lock' : 'lock_open'}</button>
+            )}
           </div>
         )}
         <button className="cursor-pointer hover:text-yellow-500"
