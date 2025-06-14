@@ -143,6 +143,20 @@ function Navbar({ tipoUsuario }) {
               </Link>
             </li>
           )}
+          { tipoUsuario === 'ADMINISTRADOR' && (
+            <li>
+              <Link
+                href="/metrics/MedirEstadisticas"
+                className={`material-symbols-outlined cursor-pointer transition-colors ${
+                  pathname === '/metrics/MedirEstadisticas' ? 'text-gray-900' : 'hover:text-gray-900'
+                }`}
+                aria-label="Medir Estadísticas"
+                title="Medir Estadísticas"
+              >
+              monitoring
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </nav>
